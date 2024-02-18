@@ -47,7 +47,7 @@ style sheets 언어.
 ```
 
 HTML이 `HTML요소(element)들의 집합`이 트리처럼 `계층적 구조`로 이루어져 있다면,   
-CSS는 `CSS 규칙들의 집합(rule의 set)`으로 `배열 형식`으로 이루어져 있다. (cf, 배열)   
+CSS는 `CSS 규칙들의 집합(rule의 set)`으로 `배열 형식`으로 이루어져 있다. 
 
 `CSS규칙(CSS rule)`은 크게 보면   
 일반적인 `CSS규칙`과`at규칙` 2가지가 있다.   
