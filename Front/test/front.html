@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <button id="connectBtn">connect</button><br>
+  <button id="rewindBtn">rewind</button>
+  State : <span style="color :red;" id="state">client</span>
+  <script>
+    let connectBtn = document.getElementById('connectBtn');
+    let rewindBtn = document.getElementById('rewindBtn');
+    let state = document.getElementById('state');
+
+    connectBtn.addEventListener("click", connect);
+    rewindBtn.addEventListener('click', rewind)
+
+    const url = 'http://localhost:3000'
+
+    function connect() {
+      fetch(`${url}/api/data`)
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          state.innerText = data.message;
+        })
+    }
+
+    function rewind() {
+      state.innerText = 'client'
+    }
+  </script>
+</body>
+
+</html>
