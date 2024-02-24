@@ -8,17 +8,28 @@
 </head>
 
 <body>
+  <h1>Number guessing Game</h1>
+  <input id="numberGameInput">
+  <button id="numberGameBtn">submit</button>
+  <p>sdf</p>
+  <br><br>
+  <!-- 
+    1. 임의의 숫자 선택(컴퓨터)
+    2. 
+   -->
   <button id="connectBtn">connect</button><br>
   <button id="rewindBtn">rewind</button>
   State : <span style="color :red;" id="state">client</span>
   <script>
     let connectBtn = document.getElementById('connectBtn');
     let rewindBtn = document.getElementById('rewindBtn');
+    let numberGameInput = document.getElementById('numberGameInput')
+    let numberGameBtn = document.getElementById('numberGameBtn')
     let state = document.getElementById('state');
 
     connectBtn.addEventListener("click", connect);
     rewindBtn.addEventListener('click', rewind)
-
+    numberGameBtn.addEventListener('click', numberGame)
     const url = 'http://localhost:3000'
 
     function connect() {
@@ -32,6 +43,15 @@
 
     function rewind() {
       state.innerText = 'client'
+    }
+
+    function numberGame() {
+      fetch(`${url}/numberGame/?${numberGameInput.value}`)
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+        })
+
     }
   </script>
 </body>
