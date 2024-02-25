@@ -12,7 +12,9 @@
   <input id="numberGameInput">
   <button id="numberGameBtn">submit</button>
   <p>sdf</p>
-  <br><br>
+  <br>
+  <button id="notifyMe">notifyMe</button>
+  <br>
   <!-- 
     1. 임의의 숫자 선택(컴퓨터)
     2. 
@@ -20,7 +22,9 @@
   <button id="connectBtn">connect</button><br>
   <button id="rewindBtn">rewind</button>
   State : <span style="color :red;" id="state">client</span>
+
   <script>
+    const url = 'http://localhost:3000'
     let connectBtn = document.getElementById('connectBtn');
     let rewindBtn = document.getElementById('rewindBtn');
     let numberGameInput = document.getElementById('numberGameInput')
@@ -30,7 +34,23 @@
     connectBtn.addEventListener("click", connect);
     rewindBtn.addEventListener('click', rewind)
     numberGameBtn.addEventListener('click', numberGame)
-    const url = 'http://localhost:3000'
+    document.getElementById('notifyMe').addEventListener('click', notifyMe)
+
+    function notifyMe() {
+      if (!("Notification" in window)) {
+        alert("This browser does not support desktop notification");
+      }
+      else if (Notification.permission === "granted") {
+        var notification = new Notification("Hi there!");
+      }
+      else if (Notification.permission !== "denied") {
+        Notification.requestPermission(function (permission) {
+          if (permission === "granted") {
+            var notification = new Notification("Hi there!");
+          }
+        });
+      }
+    }
 
     function connect() {
       fetch(`${url}/api/data`)

@@ -1,6 +1,28 @@
 목차
 https://developer.chrome.com/blog/inside-browser-part1?hl=ko
 
+- 해볼것
+  - [작업자]('https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Introducing_workers')
+  - [캔버스]('https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Object_building_practice')
+  - [WebGL]('https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/Tutorial/Getting_started_with_WebGL')
+
+- JS
+ 	- 언어로서 JS : 스크립트 언어
+    	- 싱글스레드 : 힙, 콜스택, 태스크 큐, 이벤트 루프, 웹 API(브라우저)
+        - 실행 단계 : 파싱, AST, 호이스팅, 코드 실행, 실행단계(평가), 코드 실행 및 메모리 관리
+        - 동적 언어 (메모리 등)
+        - 스코프, 렉시컬 환경, 클로저, 호이스팅
+        - window 객체 - this
+        - 객체지향 - 프로토타입
+        - var, let, const
+    - 실행환경과 JS
+    	- 브라우저 : window 객체와 this / 브라우저 API
+        - Node 등 : 모듈
+
+    - API
+
+    - SSR, CSR : 어디서 HTML을 생성하냐.
+
 - 프로그래밍 언어로 JS지식들 (객체지향)
   - 데이터과 연산 (객체지향언어답게, 모든 자료형에 프로토타입 객체가 - 원시도 래퍼객체)   
   즉 가장 작은 단위이자 줄기는 : `데이터`와 `연산자`   
@@ -150,5 +172,66 @@ HTML, CSS, JS 등으로 구성된 웹 페이지는, 웹서비스라는 결과물
 
 # JS 하나씩 정리 
 ## 문법과 자료형 : 기본 문법 / 변수 선언 / 자료형 및 리터럴
-  - 명령문 : 세미콜론이ㅏㅜㄴ
+### 변수 : 값의 컨테이너 ('식별자'는 변수명)
   - 선언 : var / let / const
+   - 전역 / 로컬 / 로컬
+   - 호이스팅, 즉 끌고 올라와지는건 셋다 동일한데, 초기화 문제(undefined vs TDZ) 
+
+### 문자열 : '', "", ``
+  - ``(템플릿 리터럴) : js삽입가능, 여러줄 가능
+  - 문자열 연산자 : +
+  - 문자열 메서드(객체시잖어~, 유사배열객체) : length, indexOf(), slice, replace, 대소문자.
+
+### 조건문 : if, switch, 삼항
+### 반복문 : 참이면 종료 / 종료조건
+  - for, while
+  - break, continue
+### 함수 : 메서드, 함수, 익명함수
+### 프로토타입 : 생성자 함수의 속성. / new 는 생성자 함수의 호출.
+클래스의 방식은 엄격하게 상위에서 하위로 상속되는 개념이라면, 프로토타입은 prototype 속성과 __proto__를 사용해서 자유롭게 연결될 수 있다는 게 클래스와 프로토타입의 가장 큰 차이점 
+  - 함수.call(this, [...Arg])
+  - Object.creat()
+
+### JSON으로 작업하기.
+  - json mime : application/json
+  - json은 순수하게 데이터 포멧 : 즉, 메서드는 담을 수 있음.
+  - json은 프로퍼티도 ""로, (''은 사용x)
+  - JSON.stirngfy() / JSON.parse()
+  - json을 가져오기 위해서는 XMLHttpRequest api.
+
+### 비동기 - 단일 스레드 - 런타임 환경 : promise, fetch, async
+  - HTTP 요청 만들기(fetch), 카메라 또는 마이크에 엑세스(getUserMedia), 파일 선택하도록 요청(showOpenFilePicker), 그외 이벤트, 웹 API
+  - 개념 :  장기 실행 작업 시작 >> 시작 후 즉시 반환되고, 콜백함수로 다른 이벤트 응답 가능하도록 >> 메인 스레드를 차단하지 않는 방식으로 작업 실행 >> 작업이 끝나면 결과 알려주기.
+  - 일반적인 방법은 콜백함수의 활용이지만, 오류처리하기가 힘듦 >> Promise
+  - Promise는 비동기 프로그래밍의 기초.
+    - "비동기 작업의 결과값"을 나타내는 개체. new Promise()
+    - Promise는 작업의 상태를 나타냄 : pending, fulfill,reject
+    - then 메소드 : 인수(콜백함수)를 2개받음(1개는 생략가능). 이행시, 실패시.
+    - catch 메소드 : 해당 행위에 대한 즉각적인 오류 처리에는 then에서 해도 되지만, 그렇지 않은 경우, catch
+    - all 메소드 : 모든 작업이 완료되면 이행. ( cf, any())
+      ex) promise.all([fetch1, fetch2, fetch3]).then((responses)=>{})
+
+    >> 종합하면, Promise객체는, 비동기 작업의 3가지 상태에 대한 객체이고, 각 상태에 따라 처리하는 콜백함수를 받아 작업을 완료 및 반환. 또한 해당 객체에 then/catch 메서드가 있음.
+
+ ## 클라측 웹 API (브라우저 API, 서드파티 API)
+  - JS, API 및 기타 JS도구 간의 관계
+    - 브라우저/서드파티/라이브러리(JQuery)/프레임워크(라이브러리와의 차이점은 "제어 반전")
+
+  - 일반적인 브라우저 API
+    - DOM
+    - fetch
+    - 그래픽 그리기 및 조작 (Canvas, WebGL)
+    - 오디오 및 비디오 재생 (HTMLMediaElement)
+    - 기기 하드웨어와의 상호작용 (Geolocation)
+    - 클라이언트 측 저장소 API (Web Storage, IndexedDB)
+      - 가장 초기 형태 : 쿠키 (물론, 세션 ID 및 엑세스 토큰 같은 사용자 개인화 및 상태와 관련된 데이터를 저장하는데는 여전히)
+      - 
+  
+  - 서드파티 API
+    - 일반적으로 API키가 필요.
+
+
+  - API 작동 : 객체를 사용하여 API와 상호작용.
+    - 인식 가능한 진입점 (DOM - document)
+    - 추가 보안 메커니즘.
+
