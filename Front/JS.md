@@ -235,3 +235,5 @@ HTML, CSS, JS 등으로 구성된 웹 페이지는, 웹서비스라는 결과물
     - 인식 가능한 진입점 (DOM - document)
     - 추가 보안 메커니즘.
 
+## 웹 양식(HTML)
+  - fieldset과 lengend
