@@ -1,3 +1,6 @@
+// "추상화 > 구현화" 이 단계. 어떻게 써먹을지...
+//
+
 // 노드 조회, 수정, 등은 singlylist라는 클래스에서
 // find, append, remove, insert, display
 // 1. singly
