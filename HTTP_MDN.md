@@ -50,3 +50,5 @@
   - fetch, XMLHttpRequest
 
 # HTTP 메세지
+
+# HTTP 연결관리 : HTTP의 핵심주제라고?
