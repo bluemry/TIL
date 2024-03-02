@@ -51,4 +51,30 @@
 
 # HTTP 메세지
 
-# HTTP 연결관리 : HTTP의 핵심주제라고?
+# HTTP 연결관리 : HTTP의 핵심주제라고? : 이걸 왜 알아야하는데 (단기 / 영구 / HTTP 파이프라이닝 )
+
+--------------
+# 프로토콜 업그레이드 메커니즘??
+
+# HTTP 보안
+  - CSP(콘텐츠 보안 정책)
+```html
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    Here be content.
+  </body>
+</html>
+```
+# HTTP 엑세스 제어 (CORS)
+
+# HTTP 인증
+
+# HTTP 캐싱
+
+# HTTP 압축
