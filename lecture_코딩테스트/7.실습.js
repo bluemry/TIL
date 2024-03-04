@@ -80,34 +80,68 @@
 // Node
 // - value / pointer -> top / v
 // - 추가 : "맨위"로
-class Node {
-  constructor(value) {
-    this.value = value;
-    this.next = null;
-  }
-}
+// class Node {
+//   constructor(value) {
+//     this.value = value;
+//     this.next = null;
+//   }
+// }
 
-class Stack {
+// class Stack {
+//   constructor() {
+//     this.top = null;
+//     this.size = 0;
+//   }
+
+//   push(value) {
+//     const node = new Node(value);
+//     node.next = this.top;
+//     this.top = node;
+//     this.size += 1;
+//   }
+
+//   pop() {
+//     const value = this.top.value;
+//     this.top = this.top.next;
+//     this.size -= 1;
+//     return value;
+//   }
+
+//   size() {
+//     return this.size;
+//   }
+// }
+
+class Queue {
   constructor() {
-    this.top = null;
-    this.size = 0;
+    this.queue = [];
+    this.front = 0;
+    this.rear = 0;
   }
 
-  push(value) {
-    const node = new Node(value);
-    node.next = this.top;
-    this.top = node;
-    this.size += 1;
+  enqueue(value) {
+    this.queue[this.rear++] = value;
   }
 
-  pop() {
-    const value = this.top.value;
-    this.top = this.top.next;
-    this.size -= 1;
+  dequeue(value) {
+    const value = this.queue[this.front];
+    delete this.queue[this.front];
+    this.front += 1;
     return value;
   }
 
+  peek() {
+    return this.queue[this.front];
+  }
+
   size() {
-    return this.size;
+    return this.rear - this.front;
   }
 }
+
+const queue = new Queue();
+queue.enqueue(1);
+queue.enqueue(2);
+queue.enqueue(3);
+console.log(queue.dequeue());
+console.log(queue.size());
