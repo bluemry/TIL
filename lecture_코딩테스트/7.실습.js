@@ -124,7 +124,7 @@ class Queue {
   }
 
   dequeue(value) {
-    const value = this.queue[this.front];
+    this.value = this.queue[this.front];
     delete this.queue[this.front];
     this.front += 1;
     return value;
@@ -145,3 +145,31 @@ queue.enqueue(2);
 queue.enqueue(3);
 console.log(queue.dequeue());
 console.log(queue.size());
+
+class MaxHeap {
+  constructor() {
+    this.heap = [];
+  }
+
+  push(value) {
+    this.heap.push(value);
+    let currentIndex = this.heap.length - 1;
+    let parentIndex = Math.floor((currentIndex - 1) / 2);
+
+    while (parentIndex !== 0 && this.heap[parentIndex] < value) {
+      const temp = this.heap[parentIndex];
+      this.heap[parentIndex] = value;
+      this.heap[currentIndex] = temp;
+
+      currentIndex = parentIndex;
+      parentIndex = Math.floor((currentIndex - 1) / 2);
+    }
+  }
+}
+
+const heap = new MaxHeap();
+
+for (let i = 0; i < 5; i++) {
+  heap.push(Math.floor(Math.random() * 100));
+}
+console.log(heap.heap);
