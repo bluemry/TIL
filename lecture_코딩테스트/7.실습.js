@@ -80,7 +80,7 @@ test.display();
 /*스택
 
 Node
-- value / pointer -> top / v
+- value / pointer -> head / v
 - 추가 : "맨위"로
 class Node {
   constructor(value) {
@@ -103,7 +103,7 @@ class Stack {
   }
 
   pop() {
-    const value = this.top.value;
+    const value = this.top.value;zx
     this.top = this.top.next;
     this.size -= 1;
     return value;
@@ -121,6 +121,7 @@ class Stack {
   - 어떤 부분에서 스택을 적용하는건지..
 */
 
+/*
 function solution(string) {
   const start = new Date().getTime();
   let result = string[0] === "(" && string[string.length - 1] === ")";
@@ -165,3 +166,95 @@ solution2(test);
 console.log(performance.now(solution2));
 console.log(performance.now(solution));
 solution(test);
+*/
+
+// 안보고 큐 구현해보자 >> 연결리스트
+
+// class Node {
+//   constructor(value) {
+//     this.value = value;
+//     this.next = null;
+//   }
+
+//   getTest() {
+//     return test;
+//   }
+// }
+
+// class Queue {
+//   constructor() {
+//     this.head = null;
+//     this.tail = null;
+//     this.size = 0;
+//   }
+
+//   enqueue(node) {
+//     if (!this.head) {
+//       this.head = this.tail = node;
+//     } else {
+//       this.tail.next = node;
+//       this.tail = node;
+//     }
+//     this.size++;
+//   }
+
+//   dequeue() {
+//     let result = this.head.value;
+//     this.head = this.head.next;
+//     this.size--;
+//     return result;
+//   }
+
+//   peek() {
+//     return this.head.value;
+//   }
+
+//   getSize() {
+//     return this.size;
+//   }
+// }
+
+// const testQueue = new Queue();
+// testQueue.enqueue(new Node(1));
+// testQueue.enqueue(new Node(2));
+// testQueue.enqueue(new Node(3));
+// testQueue.enqueue(new Node(4));
+// console.log(testQueue);
+// console.log(testQueue.dequeue());
+// console.log(testQueue.getSize());
+// console.log(testQueue.peek());
+
+function solution(priorities, location) {
+  /* 특정 프로세스가 몇번째로 실행되는지.
+      이해) 꺼내서 우선순위 확인
+          - 최우선이면 실행
+          - 아니면 다시 넣음.
+          - 우선순위가 같으면, 우선순위가 높은 것으로부터 순서대로
+              - [2,1,1,4,1] 일경우, DABCE
+              - [2,4,1,1,1] 일경우, BACDE
+      
+      구현) 일단 정렬 > 해당 '위치'를 조회해서 '순서'
+      -1) 정렬
+          - 숫자 크기에 따른 정렬 > 이거만으로도 n^아닌가..
+          - 동일 크기일 시, 위치에 따른 정렬.
+      -2) 결과배열의 요소로 기존 위치 정보까지 넣으면..> 물론 탐색에 O(n)
+          - 위치정보까지 넣는다면, 객체가 나을지도..
+      -3) 순서 : 결과 배열의 인덱스
+      
+  */
+  let ansArr = priorities.map((element, index) => {
+    return {
+      priority: element,
+      index: index,
+      frontIndex: priorities[index - 1] ? priorities[index - 1] : null,
+    };
+  });
+
+  // 직접 정렬구하든가, 아니면 sort함수.
+
+  let sorted = ansArr.sort((a, b) => b.priority - a.priority);
+  console.log(ansArr);
+  console.log(sorted);
+}
+
+solution([1, 1, 9, 1, 1, 1], 1);
