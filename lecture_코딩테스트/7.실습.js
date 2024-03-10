@@ -242,19 +242,43 @@ function solution(priorities, location) {
       -3) 순서 : 결과 배열의 인덱스
       
   */
-  let ansArr = priorities.map((element, index) => {
+  let arr = priorities.map((element, index) => {
     return {
       priority: element,
       index: index,
-      frontIndex: priorities[index - 1] ? priorities[index - 1] : null,
+      front: priorities[index - 1] ? priorities[index - 1] : 0,
     };
   });
 
-  // 직접 정렬구하든가, 아니면 sort함수.
+  // 직접 정렬구하든가, 아니면 sort함수. > 혹은 환형큐로
+  let answer = 0;
+  let sortedArr = arr
+    .sort((a, b) => b.priority - a.priority)
+    .sort((a, b) => {
+      if (a.priority === b.priority) {
+        return a.front - b.front;
+      }
+    })
+    .map((obj, idx) => {
+      if (
+        obj.priority === priorities[location] &&
+        obj.front !== priorities[location]
+      ) {
+        answer = idx + 1;
+      }
+      return obj;
+    });
 
-  let sorted = ansArr.sort((a, b) => b.priority - a.priority);
-  console.log(ansArr);
-  console.log(sorted);
+  console.log(sortedArr);
+  console.log(answer);
 }
 
-solution([1, 1, 9, 1, 1, 1], 1);
+solution([5, 1, 9, 4, 1, 1], 1);
+// 예상 답변 6
+
+const table = [];
+table["a"] = 100;
+table["b"] = 200;
+console.log(table);
+console.log(table["a"]);
+console.log(table[0]);
