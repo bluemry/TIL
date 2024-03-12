@@ -224,61 +224,127 @@ solution(test);
 // console.log(testQueue.getSize());
 // console.log(testQueue.peek());
 
-function solution(priorities, location) {
-  /* 특정 프로세스가 몇번째로 실행되는지.
-      이해) 꺼내서 우선순위 확인
-          - 최우선이면 실행
-          - 아니면 다시 넣음.
-          - 우선순위가 같으면, 우선순위가 높은 것으로부터 순서대로
-              - [2,1,1,4,1] 일경우, DABCE
-              - [2,4,1,1,1] 일경우, BACDE
-      
-      구현) 일단 정렬 > 해당 '위치'를 조회해서 '순서'
-      -1) 정렬
-          - 숫자 크기에 따른 정렬 > 이거만으로도 n^아닌가..
-          - 동일 크기일 시, 위치에 따른 정렬.
-      -2) 결과배열의 요소로 기존 위치 정보까지 넣으면..> 물론 탐색에 O(n)
-          - 위치정보까지 넣는다면, 객체가 나을지도..
-      -3) 순서 : 결과 배열의 인덱스
-      
-  */
-  let arr = priorities.map((element, index) => {
-    return {
-      priority: element,
-      index: index,
-      front: priorities[index - 1] ? priorities[index - 1] : 0,
-    };
+// function solution(priorities, location) {
+//   /* 특정 프로세스가 몇번째로 실행되는지.
+//       이해) 꺼내서 우선순위 확인
+//           - 최우선이면 실행
+//           - 아니면 다시 넣음.
+//           - 우선순위가 같으면, 우선순위가 높은 것으로부터 순서대로
+//               - [2,1,1,4,1] 일경우, DABCE
+//               - [2,4,1,1,1] 일경우, BACDE
+
+//       구현) 일단 정렬 > 해당 '위치'를 조회해서 '순서'
+//       -1) 정렬
+//           - 숫자 크기에 따른 정렬 > 이거만으로도 n^아닌가..
+//           - 동일 크기일 시, 위치에 따른 정렬.
+//       -2) 결과배열의 요소로 기존 위치 정보까지 넣으면..> 물론 탐색에 O(n)
+//           - 위치정보까지 넣는다면, 객체가 나을지도..
+//       -3) 순서 : 결과 배열의 인덱스
+
+//   */
+//   let arr = priorities.map((element, index) => {
+//     return {
+//       priority: element,
+//       index: index,
+//       front: priorities[index - 1] ? priorities[index - 1] : 0,
+//     };
+//   });
+
+//   // 직접 정렬구하든가, 아니면 sort함수. > 혹은 환형큐로
+//   let answer = 0;
+//   let sortedArr = arr
+//     .sort((a, b) => b.priority - a.priority)
+//     .sort((a, b) => {
+//       if (a.priority === b.priority) {
+//         return a.front - b.front;
+//       }
+//     })
+//     .map((obj, idx) => {
+//       if (
+//         obj.priority === priorities[location] &&
+//         obj.front !== priorities[location]
+//       ) {
+//         answer = idx + 1;
+//       }
+//       return obj;
+//     });
+
+//   console.log(sortedArr);
+//   console.log(answer);
+// }
+
+// solution([5, 1, 9, 4, 1, 1], 1);
+// // 예상 답변 6
+
+// const table = [];
+// table["a"] = 100;
+// table["b"] = 200;
+// console.log(table);
+// console.log(table["a"]);
+// console.log(table[0]);
+
+// const tableMap = new Map();
+// // Map 객체는 키-값 쌍인 집합.
+// tableMap.set("a", [100, 200]);
+
+// console.log(tableMap.get("a")[1]);
+// console.log(tableMap.get("b"));
+// console.log(Array.from(tableMap.entries()));
+
+function solution(genres, plays) {
+  // 고유번호 : 장르인덱스
+  // 장르별 분류 및 장르별 재생횟수 따지기.
+  // 해당 장르 내 재생횟수 따져서 순서
+
+  const genrePlays = new Map();
+  //  genrePlays {
+  //    [장르, [총횟수 , [개별횟수, 개별횟수 ]]]
+  // }
+
+  genres.map((element, idx) => {
+    genrePlays.set(
+      element,
+      genrePlays.get(element)
+        ? [
+            genrePlays.get(element)[0] + plays[idx],
+            { ...genrePlays.get(element)[1], [idx]: plays[idx] },
+          ]
+        : [plays[idx], { [idx]: plays[idx] }]
+    );
+  });
+  console.log(genrePlays.entries());
+
+  // 베스트앨범 장르 순서
+  const genresOrder = Array.from(genrePlays.entries())
+    .sort((a, b) => b[1][0] - a[1][0])
+    .map((element) => element[0]);
+  console.log(genresOrder);
+
+  const answer = [];
+
+  // 개별곡 순서 정렬
+  genresOrder.map((element) => {
+    answer.push(
+      Number(
+        Object.entries(genrePlays.get(element)[1]).sort(
+          (a, b) => b[1] - a[1]
+        )[0][0]
+      )
+    );
+    answer.push(
+      Number(
+        Object.entries(genrePlays.get(element)[1]).sort(
+          (a, b) => b[1] - a[1]
+        )[1][0]
+      )
+    );
   });
 
-  // 직접 정렬구하든가, 아니면 sort함수. > 혹은 환형큐로
-  let answer = 0;
-  let sortedArr = arr
-    .sort((a, b) => b.priority - a.priority)
-    .sort((a, b) => {
-      if (a.priority === b.priority) {
-        return a.front - b.front;
-      }
-    })
-    .map((obj, idx) => {
-      if (
-        obj.priority === priorities[location] &&
-        obj.front !== priorities[location]
-      ) {
-        answer = idx + 1;
-      }
-      return obj;
-    });
-
-  console.log(sortedArr);
   console.log(answer);
+  return answer;
 }
 
-solution([5, 1, 9, 4, 1, 1], 1);
-// 예상 답변 6
-
-const table = [];
-table["a"] = 100;
-table["b"] = 200;
-console.log(table);
-console.log(table["a"]);
-console.log(table[0]);
+solution(
+  ["classic", "pop", "classic", "classic", "pop"],
+  [500, 600, 150, 800, 2500]
+);
