@@ -291,60 +291,124 @@ solution(test);
 // console.log(tableMap.get("b"));
 // console.log(Array.from(tableMap.entries()));
 
-function solution(genres, plays) {
-  // 고유번호 : 장르인덱스
-  // 장르별 분류 및 장르별 재생횟수 따지기.
-  // 해당 장르 내 재생횟수 따져서 순서
+// function solution(genres, plays) {
+//   const table = new Map();
 
-  const genrePlays = new Map();
-  //  genrePlays {
-  //    [장르, [총횟수 , [개별횟수, 개별횟수 ]]]
-  // }
+//   genres.map((genres, idx) => {
+//     // [장르, {토탈 : 총재생수, 플레이 : [재생수, 인덱스]}]
+//     const total = table.get(genres)
+//       ? table.get(genres).total + plays[idx]
+//       : plays[idx];
+//     const play = table.get(genres)
+//       ? [...table.get(genres).play, [plays[idx], idx]].sort(
+//           (a, b) => b[0] - a[0]
+//         )
+//       : [[plays[idx], idx]];
 
-  genres.map((element, idx) => {
-    genrePlays.set(
-      element,
-      genrePlays.get(element)
-        ? [
-            genrePlays.get(element)[0] + plays[idx],
-            { ...genrePlays.get(element)[1], [idx]: plays[idx] },
-          ]
-        : [plays[idx], { [idx]: plays[idx] }]
-    );
-  });
-  console.log(genrePlays.entries());
+//     table.set(genres, { total, play });
+//   });
 
-  // 베스트앨범 장르 순서
-  const genresOrder = Array.from(genrePlays.entries())
-    .sort((a, b) => b[1][0] - a[1][0])
-    .map((element) => element[0]);
-  console.log(genresOrder);
+//   return [...table.entries()]
+//     .sort((a, b) => b[1].total - a[1].total)
+//     .flatMap((element) => element[1].play.slice(0, 2))
+//     .flatMap((ele) => ele[1]);
+// }
 
-  const answer = [];
+// // foreach, slice, flatmap.
 
-  // 개별곡 순서 정렬
-  genresOrder.map((element) => {
-    answer.push(
-      Number(
-        Object.entries(genrePlays.get(element)[1]).sort(
-          (a, b) => b[1] - a[1]
-        )[0][0]
-      )
-    );
-    answer.push(
-      Number(
-        Object.entries(genrePlays.get(element)[1]).sort(
-          (a, b) => b[1] - a[1]
-        )[1][0]
-      )
-    );
-  });
+// solution(
+//   ["classic", "pop", "classic", "classic", "pop"],
+//   [500, 600, 150, 800, 2500]
+// );
 
-  console.log(answer);
-  return answer;
+// let graph1 = Array.from(Array(5), () => []);
+// console.log(graph1);
+
+// class Node {
+//   constructor() {
+//     this.value = null;
+//     this.left = null;
+//     this.right = null;
+//   }
+// }
+
+// class Queue {
+//   constructor(value) {
+//     this.head = value;
+//     this.tail = null;
+//     this.size = 0;
+//   }
+
+//   enqueue(value) {
+//     const node = new Node(value);
+
+//     if (!this.head && !this.tail) {
+//       this.head = node;
+//       this.tail = node;
+//     } else {
+//       this.tail.right = node;
+//       this.tail = node;
+//     }
+//     this.size++;
+//   }
+
+//   dequeue() {
+//     const result = this.head.value;
+//     this.head = this.head.right;
+//     this.size--;
+//     return result;
+//   }
+
+//   peek() {
+//     return this.head;
+//   }
+// }
+
+// class tree {
+//   constructor(value, direction) {
+//     const node = new Node(value);
+//     this.root = node;
+//   }
+
+//   display() {
+//     let queue = new Queue();
+//     while (queue.size){
+
+//     }
+//   }
+// }
+
+//복습. 안보고 개념만가지고 떠올리면서 작성해보기
+
+// 배열을 통해서. 별개로 큐를 생성하지않고. (add, delete, find)
+// 인덱스를 통해서 간선을 구축할 수 있기때문에 별개로 포인터를 포함하는 노드는 없어도 될듯?
+
+class Node {
+  constructor(value) {
+    this.value = value;
+    this.next = null;
+  }
 }
 
-solution(
-  ["classic", "pop", "classic", "classic", "pop"],
-  [500, 600, 150, 800, 2500]
-);
+class Queue {
+  constructor() {
+    this.head = null;
+    this.tail = null;
+  }
+}
+
+let a = "c";
+let test = {
+  a: this,
+  b: () => {
+    console.log(this === globalThis);
+  },
+};
+
+console.log(test.a === test);
+function solution(priorities, location) {
+  const queue = [];
+}
+
+console.log(solution([2, 1, 3, 2], 2) === 1);
+console.log(solution([1, 1, 9, 1, 1, 1], 0) === 5);
