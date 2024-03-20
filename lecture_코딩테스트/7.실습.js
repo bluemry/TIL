@@ -383,91 +383,114 @@ solution(test);
 // 배열을 통해서. 별개로 큐를 생성하지않고. (add, delete, find)
 // 인덱스를 통해서 간선을 구축할 수 있기때문에 별개로 포인터를 포함하는 노드는 없어도 될듯?
 
-class Node {
-  constructor(value) {
-    this.value = value;
-    this.next = null;
-  }
-}
+// class Node {
+//   constructor(value) {
+//     this.value = value;
+//     this.next = null;
+//   }
+// }
 
-class Queue {
-  constructor() {
-    this.head = null;
-    this.tail = null;
-  }
-}
+// class Queue {
+//   constructor() {
+//     this.head = null;
+//     this.tail = null;
+//   }
+// }
 
-let a = "c";
-let test = {
-  a: this,
-  b: () => {
-    console.log(this === globalThis);
-  },
-};
+// let a = "c";
+// let test = {
+//   a: this,
+//   b: () => {
+//     console.log(this === globalThis);
+//   },
+// };
 
-console.log(test.a === test);
-function solution(priorities, location) {
-  const queue = [];
-}
-
-class Node {
-  constructor(value = "") {
-    this.value = value; //현재 경로까지의 누적값
-    this.end = false; //해당 노드에서 끝나는 문자열이 있는지 여부
-    this.child = {}; //자식
-  }
-}
-
+// console.log(test.a === test);
+// function solution(priorities, location) {
+//   const queue = [];
+// }
 class Trie {
   constructor() {
-    this.root = new Node();
+    this.root = new Node(); // root는 빈 노드를 하나 만든다.
   }
 
+  // 새 단어 추가
   insert(string) {
-    let currentNode = this.root; //루트노드를 시작으로 탐색하면서 삽입한다
+    let curNode = this.root; // root노드를 시작으로 현재까지의 문자열과 일치하는 노드가 존재하는 지 확인하며 삽입한다.
 
     for (let i = 0; i < string.length; i++) {
       const currentChar = string[i];
 
-      //만일, 해당 키를 가진 자식이 없다면 새 노드를 만들어준다.
-      if (currentNode.child[currentChar] === undefined) {
-        currentNode.child[currentChar] = new Node(
-          currentNode.value + currentChar
-        );
+      if (curNode.children[currentChar] === undefined) {
+        curNode.children[currentChar] = new Node(curNode.value + currentChar);
+        // curNode.child[currentChar] = new Node(currentChar); -> 각 자리 요소만 저장하는 경우.
       }
 
-      currentNode = currentNode.child[currentChar]; // 자식 노드로 이동한다.
+      curNode = curNode.children[currentChar];
     }
-    currentNode.end = true; //해당 노드에서 끝나는 단어가 있음을 알린다
+    currentNode.end = true; // 마지막 원소까지 저장한 후에는 끝나는 단어가 생긴 것이므로 true로 변경
   }
 
+  // 단어 존재 여부 확인
   search(string) {
-    let currentNode = this.root; //역시나 시작은 루트
+    let curNode = this.root;
 
     for (let i = 0; i < string.length; i++) {
-      const currentChar = string[i];
-      if (currentNode.child[currentChar]) {
-        currentNode = currentNode.child[currentChar]; // 있으면 노드 이동
+      let currentChar = string[i];
+      if (curNode.children[currentChar]) {
+        curNode = curNode.children[currentChar];
       } else {
-        return "";
+        return false;
       }
     }
-    //찾는 문자열의 마지막까지 탐색했다는것은, 문자열을 찾았다는 것.
-    return currentNode.value;
+    // 문자열을 순차적으로 모두 도는데 성공한 경우
+    return true;
   }
 }
 
-const myTrie = new Trie();
+class MaxHeap {
+  // 우선순위 정렬이 중요함.
 
-myTrie.insert("hell");
-myTrie.insert("hep");
-myTrie.insert("hel");
+  constructor() {
+    this.heap = [null];
+  }
 
-console.log(myTrie.search("hell")); // 찾아야함
-console.log(myTrie.search("hello"));
-console.log(myTrie.search("hep")); // 찾아야함
-console.log(myTrie.search("help"));
-console.log(myTrie.search("world"));
+  push(value) {
+    this.heap.push(value);
+    let currentIdx = this.heap.length - 1;
+    let parentIdx = this.heap.length > 2 ? Math.floor(currentIdx / 2) : 1;
 
-console.log(solution([2, 1, 3, 2], 2) === 1);
-console.log(solution([1, 1, 9, 1, 1, 1], 0) === 5);
+    while (parentIdx > 1) {
+      if (currentIdx % 2) {
+        // 오른쪽(한 트리의, 마지막 정점) > 바로 앞, 부모 정점과 비교
+        const arr = [
+          this.heap[parentIdx],
+          this.heap[currentIdx - 1],
+          this.heap[currentIdx],
+        ].sort((a, b) => b - a);
+
+        this.heap[parentIdx] = arr[0];
+        this.heap[currentIdx - 1] = arr[1];
+        this.heap[currentIdx] = arr[2];
+      } else {
+        // 왼쪽 > 부모정점과 비교
+        const arr = [this.heap[parentIdx], this.heap[currentIdx]].sort(
+          (a, b) => b - a
+        );
+        this.heap[parentIdx] = arr[0];
+        this.heap[currentIdx] = arr[2];
+      }
+      currentIdx = parentIdx;
+      parentIdx = Math.floor(currentIdx / 2);
+    }
+  }
+}
+
+const heap = new MaxHeap();
+heap.push(50);
+heap.push(40);
+heap.push(50);
+heap.push(10);
+heap.push(60);
+
+console.log(heap.heap);
