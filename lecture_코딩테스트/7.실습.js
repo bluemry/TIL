@@ -93,7 +93,7 @@ class Stack {
   constructor() {
     this.top = null;
     this.size = 0;
-  }
+  }3
 
   push(value) {
     const node = new Node(value);
@@ -409,88 +409,99 @@ solution(test);
 // function solution(priorities, location) {
 //   const queue = [];
 // }
-class Trie {
-  constructor() {
-    this.root = new Node(); // root는 빈 노드를 하나 만든다.
-  }
+// 오랜만에 구현 총복습. 구현.
 
-  // 새 단어 추가
-  insert(string) {
-    let curNode = this.root; // root노드를 시작으로 현재까지의 문자열과 일치하는 노드가 존재하는 지 확인하며 삽입한다.
-
-    for (let i = 0; i < string.length; i++) {
-      const currentChar = string[i];
-
-      if (curNode.children[currentChar] === undefined) {
-        curNode.children[currentChar] = new Node(curNode.value + currentChar);
-        // curNode.child[currentChar] = new Node(currentChar); -> 각 자리 요소만 저장하는 경우.
-      }
-
-      curNode = curNode.children[currentChar];
-    }
-    currentNode.end = true; // 마지막 원소까지 저장한 후에는 끝나는 단어가 생긴 것이므로 true로 변경
-  }
-
-  // 단어 존재 여부 확인
-  search(string) {
-    let curNode = this.root;
-
-    for (let i = 0; i < string.length; i++) {
-      let currentChar = string[i];
-      if (curNode.children[currentChar]) {
-        curNode = curNode.children[currentChar];
-      } else {
-        return false;
-      }
-    }
-    // 문자열을 순차적으로 모두 도는데 성공한 경우
-    return true;
+class Node {
+  constructor(value) {
+    this.value = value;
+    this.left = null;
   }
 }
 
-class MaxHeap {
-  // 우선순위 정렬이 중요함.
-
+class Stack {
   constructor() {
-    this.heap = [null];
+    this.top = null;
+    this.memory = [];
   }
-
   push(value) {
-    this.heap.push(value);
-    let currentIdx = this.heap.length - 1;
-    let parentIdx = this.heap.length > 2 ? Math.floor(currentIdx / 2) : 1;
-
-    while (parentIdx > 1) {
-      if (currentIdx % 2) {
-        // 오른쪽(한 트리의, 마지막 정점) > 바로 앞, 부모 정점과 비교
-        const arr = [
-          this.heap[parentIdx],
-          this.heap[currentIdx - 1],
-          this.heap[currentIdx],
-        ].sort((a, b) => b - a);
-
-        this.heap[parentIdx] = arr[0];
-        this.heap[currentIdx - 1] = arr[1];
-        this.heap[currentIdx] = arr[2];
-      } else {
-        // 왼쪽 > 부모정점과 비교
-        const arr = [this.heap[parentIdx], this.heap[currentIdx]].sort(
-          (a, b) => b - a
-        );
-        this.heap[parentIdx] = arr[0];
-        this.heap[currentIdx] = arr[2];
-      }
-      currentIdx = parentIdx;
-      parentIdx = Math.floor(currentIdx / 2);
+    this.memory.push(value);
+    const node = new Node(value);
+    if (!this.top) {
+      this.top = node;
+      return this;
     }
+    node.left = this.top;
+    this.top = node;
+    return this;
+  }
+  pop() {
+    if (!this.top) {
+      return this;
+    }
+    this.memory.pop();
+    this.top = this.top.left;
+    return this;
+  }
+
+  peek() {
+    console.log(this.top.value);
+    console.log(this.memory);
+    return this;
   }
 }
 
-const heap = new MaxHeap();
-heap.push(50);
-heap.push(40);
-heap.push(50);
-heap.push(10);
-heap.push(60);
+class Queue {
+  constructor() {
+    this.head = null;
+    this.tail = null;
+    this.memory = [];
+    this.size = 0;
+  }
+  enqueue(value) {
+    this.memory.push(value);
+    const node = new Node(value);
+    if (!this.size) {
+      this.head = node;
+      this.tail = node;
+      this.size++;
+      return this;
+    }
+    this.tail.left = node;
+    this.tail = node;
+    this.size++;
+    return this;
+  }
+  dequeue() {
+    this.memory.shift();
+    if (!this.size) {
+      return this;
+    }
+    this.size--;
+    this.head = this.head.left;
+    return this;
+  }
 
-console.log(heap.heap);
+  peek() {
+    console.log(this.memory);
+    console.log(`head : ${this.head.value}, tail : ${this.tail.value}`);
+    return this;
+  }
+}
+
+const stack = new Stack();
+stack.push(3).push(1).push(5).push(4).peek().pop().peek();
+console.log("---------------");
+const queue = new Queue();
+queue
+  .enqueue(3)
+  .enqueue(1)
+  .enqueue(5)
+  .peek()
+  .dequeue()
+  .peek()
+  .enqueue(4)
+  .peek();
+console.log("---------------");
+const test = new Deque();
+console.log(test.prototype);
+test.push();
